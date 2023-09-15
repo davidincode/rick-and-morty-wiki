@@ -1,22 +1,11 @@
-import {
-  selectPagingInfo,
-  setNextPage,
-  setPrevPage
-} from '../store/slice/pagingSlice'
-import { useAppDispatch, useAppSelector } from '../store/hook/useStore'
-
+import { usePaging } from '../hook/usePaging'
 const Paging = () => {
-  const dispatch = useAppDispatch()
-  const pagingInfo = useAppSelector(selectPagingInfo)
+  const { pagingInfo, useSetNextPage, useSetPrevPage } = usePaging()
   return (
     <div>
-      {pagingInfo.prev.page && (
-        <button onClick={() => dispatch(setPrevPage())}>Prev</button>
-      )}
+      {pagingInfo.prev.page && <button onClick={useSetPrevPage}>Prev</button>}
       {pagingInfo.current} of {pagingInfo.pages}
-      {pagingInfo.next.page && (
-        <button onClick={() => dispatch(setNextPage())}>Next</button>
-      )}
+      {pagingInfo.next.page && <button onClick={useSetNextPage}>Next</button>}
     </div>
   )
 }
