@@ -1,5 +1,11 @@
+import Home from './view/Home'
+
 const App = () => {
-  return <h1>Rick and Morty Wiki</h1>
+  return (
+    <>
+      <Home />
+    </>
+  )
 }
 
 export default App
