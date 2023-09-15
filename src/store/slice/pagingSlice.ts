@@ -5,7 +5,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import type { Info } from '../../typing/API'
 
-interface PagingState {
+export interface PagingState {
   count: number
   pages: number
   current: number
@@ -54,11 +54,13 @@ export const pagingSlice = createSlice({
     },
     setPrevPage: state => {
       state.current--
-    }
+    },
+    resetPagingInfo: () => initialState
   }
 })
 
 export const selectPagingInfo = (state: RootState) => state.paging
 
-export const { setPagingInfo, setNextPage, setPrevPage } = pagingSlice.actions
+export const { setPagingInfo, setNextPage, setPrevPage, resetPagingInfo } =
+  pagingSlice.actions
 export default pagingSlice.reducer

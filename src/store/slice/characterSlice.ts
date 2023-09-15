@@ -1,15 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchCharacterCollection } from '../../service/characterService'
+import { setPagingInfo } from './pagingSlice'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import type { Character } from '../../typing/API'
-import { setPagingInfo } from './pagingSlice'
+import type { FetchCharacterCollectionArgs } from '../../service/characterService'
 
 export const getCharacterCollection = createAsyncThunk(
   'character/getCharacterCollection',
-  async (page: number, thunkAPI) => {
-    const { collection, paging } = await fetchCharacterCollection(page)
+  async ({ name, page }: FetchCharacterCollectionArgs, thunkAPI) => {
+    const { collection, paging } = await fetchCharacterCollection({
+      name,
+      page
+    })
     thunkAPI.dispatch(setPagingInfo(paging))
 
     return collection
@@ -18,18 +22,24 @@ export const getCharacterCollection = createAsyncThunk(
 
 interface CharacterState {
   collection: Character[]
+  targeted: string
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 }
 
 const initialState: CharacterState = {
   collection: [],
+  targeted: '',
   loading: 'idle'
 }
 
-export const counterSlice = createSlice({
+export const characterSlice = createSlice({
   name: 'character',
   initialState,
-  reducers: {},
+  reducers: {
+    setTargetedCharacter: (state, action: PayloadAction<string>) => {
+      state.targeted = action.payload
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(
@@ -48,5 +58,7 @@ export const counterSlice = createSlice({
   }
 })
 
+export const { setTargetedCharacter } = characterSlice.actions
+
 export const selectCharacter = (state: RootState) => state.character
-export default counterSlice.reducer
+export default characterSlice.reducer

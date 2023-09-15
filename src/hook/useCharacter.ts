@@ -9,12 +9,16 @@ import { selectPagingInfo } from '../store/slice/pagingSlice'
 
 export const useGetCharacterCollection = () => {
   const dispatch = useAppDispatch()
-  const { collection, loading } = useAppSelector(selectCharacter)
+  const {
+    collection,
+    targeted: name,
+    loading
+  } = useAppSelector(selectCharacter)
   const { current: page } = useAppSelector(selectPagingInfo)
 
   useEffect(() => {
-    dispatch(getCharacterCollection(page))
-  }, [page, dispatch])
+    dispatch(getCharacterCollection({ name, page }))
+  }, [name, page, dispatch])
 
   const isUninitialized = loading === 'idle'
   const isLoading = loading === 'pending'
