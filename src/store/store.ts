@@ -1,9 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+
 import characterReducer from './slice/characterSlice'
+import pagingReducer from './slice/pagingSlice'
 
 export const store = configureStore({
   reducer: {
-    character: characterReducer
+    character: characterReducer,
+    paging: pagingReducer
   }
 })
 

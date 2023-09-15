@@ -4,10 +4,16 @@ import { fetchCharacterCollection } from '../../service/characterService'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import type { Character } from '../../typing/API'
+import { setPagingInfo } from './pagingSlice'
 
 export const getCharacterCollection = createAsyncThunk(
   'character/getCharacterCollection',
-  fetchCharacterCollection
+  async (page: number, thunkAPI) => {
+    const { collection, paging } = await fetchCharacterCollection(page)
+    thunkAPI.dispatch(setPagingInfo(paging))
+
+    return collection
+  }
 )
 
 interface CharacterState {
@@ -21,7 +27,7 @@ const initialState: CharacterState = {
 }
 
 export const counterSlice = createSlice({
-  name: 'counter',
+  name: 'character',
   initialState,
   reducers: {},
   extraReducers: builder => {

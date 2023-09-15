@@ -6,8 +6,8 @@ export interface RickAndMortyAPIResponse {
 export interface Info {
   count: number
   pages: number
-  next: string
-  prev: null
+  next: string | null
+  prev: string | null
 }
 
 export interface Character {

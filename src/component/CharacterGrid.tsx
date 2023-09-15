@@ -1,16 +1,10 @@
-import { useGetCharacterCollection } from '../hook/useCharacter'
+import type { Character } from '../typing/API'
 
-const CharacterGrid = () => {
-  const { collection, isLoading, isError } = useGetCharacterCollection()
+interface CharacterGridProps {
+  collection: Character[]
+}
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Unfortunately, something went wrong!</div>
-  }
-
+const CharacterGrid = ({ collection }: CharacterGridProps) => {
   return (
     <ul>
       {collection.map(character => (
