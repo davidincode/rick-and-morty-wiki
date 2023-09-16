@@ -1,18 +1,24 @@
-import { useAppDispatch, useAppSelector } from '../store/hook/useStore'
-import {
-  selectCharacter,
-  setTargetedCharacter
-} from '../store/slice/characterSlice'
+import { useCallback } from 'react'
+import { debounce } from 'lodash'
+
+import { useAppDispatch } from '../store/hook/useStore'
+import { setTargetedCharacter } from '../store/slice/characterSlice'
 import { resetPagingInfo } from '../store/slice/pagingSlice'
 
 export const useSearch = () => {
   const dispatch = useAppDispatch()
-  const { targeted: characterName } = useAppSelector(selectCharacter)
+
+  const debouncedSearch = useCallback(
+    debounce((characterName: string) => {
+      dispatch(resetPagingInfo())
+      dispatch(setTargetedCharacter(characterName))
+    }, 500),
+    [debounce]
+  )
 
   const useSearchCharacter = (targetedCharacter: string) => {
-    dispatch(resetPagingInfo())
-    dispatch(setTargetedCharacter(targetedCharacter))
+    debouncedSearch(targetedCharacter)
   }
 
-  return { characterName, useSearchCharacter }
+  return { useSearchCharacter }
 }
