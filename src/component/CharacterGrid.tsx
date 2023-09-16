@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import type { Character } from '../typing/API'
 
 interface CharacterGridProps {
@@ -5,6 +6,7 @@ interface CharacterGridProps {
 }
 
 const CharacterGrid = ({ collection }: CharacterGridProps) => {
+  const navigate = useNavigate()
   return (
     <ul>
       {collection.map(character => (
@@ -15,6 +17,9 @@ const CharacterGrid = ({ collection }: CharacterGridProps) => {
             <p>Last Knwon Location: {character.location.name}</p>
             <p>First Seen In: {character.firstSeenIn}</p>
           </div>
+          <button onClick={() => navigate(`/character/${character.id}`)}>
+            View More
+          </button>
         </li>
       ))}
     </ul>

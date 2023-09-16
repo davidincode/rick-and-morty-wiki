@@ -44,3 +44,11 @@ export const fetchCharacterCollection = async ({
 
   return { collection, paging: data.info }
 }
+
+export const fetchCharacterDetail = async (characterId: number) => {
+  const { data }: { data: Character } = await axios.get(
+    `${API_BASE_URL}/character/${characterId}`
+  )
+
+  return data
+}

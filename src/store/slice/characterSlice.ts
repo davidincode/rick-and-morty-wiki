@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchCharacterCollection } from '../../service/characterService'
+import {
+  fetchCharacterCollection,
+  fetchCharacterDetail
+} from '../../service/characterService'
 import { setPagingInfo } from './pagingSlice'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
@@ -20,15 +23,25 @@ export const getCharacterCollection = createAsyncThunk(
   }
 )
 
+export const getCharacterDetail = createAsyncThunk(
+  'character/getCharacterDetail',
+  async (id: number) => {
+    const detailOfCharacter = await fetchCharacterDetail(id)
+    return detailOfCharacter
+  }
+)
+
 interface CharacterState {
   collection: Character[]
   targeted: string
+  detail: Character | null
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 }
 
 const initialState: CharacterState = {
   collection: [],
   targeted: '',
+  detail: null,
   loading: 'idle'
 }
 
@@ -53,6 +66,19 @@ export const characterSlice = createSlice({
         state.loading = 'pending'
       })
       .addCase(getCharacterCollection.rejected, (state, _action) => {
+        state.loading = 'failed'
+      })
+      .addCase(
+        getCharacterDetail.fulfilled,
+        (state, action: PayloadAction<Character>) => {
+          state.detail = action.payload
+          state.loading = 'succeeded'
+        }
+      )
+      .addCase(getCharacterDetail.pending, (state, _action) => {
+        state.loading = 'pending'
+      })
+      .addCase(getCharacterDetail.rejected, (state, _action) => {
         state.loading = 'failed'
       })
   }

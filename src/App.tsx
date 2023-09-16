@@ -1,10 +1,14 @@
 import Home from './view/Home'
+import CharacterDetail from './view/CharacterDetail'
+
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
   return (
-    <>
-      <Home />
-    </>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/character/:id' element={<CharacterDetail />} />
+    </Routes>
   )
 }
 
