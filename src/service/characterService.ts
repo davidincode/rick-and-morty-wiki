@@ -50,5 +50,7 @@ export const fetchCharacterDetail = async (characterId: number) => {
     `${API_BASE_URL}/character/${characterId}`
   )
 
-  return data
+  const collection = await formatCollectionWithFirstSeenIn([data])
+
+  return collection[0]
 }

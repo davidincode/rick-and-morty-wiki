@@ -13,12 +13,12 @@ export const useSearch = () => {
       dispatch(resetPagingInfo())
       dispatch(setTargetedCharacter(characterName))
     }, 500),
-    [debounce]
+    [dispatch]
   )
 
-  const useSearchCharacter = (targetedCharacter: string) => {
+  const searchCharacter = (targetedCharacter: string) => {
     debouncedSearch(targetedCharacter)
   }
 
-  return { useSearchCharacter }
+  return { searchCharacter }
 }

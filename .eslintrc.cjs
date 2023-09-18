@@ -3,7 +3,14 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: ['standard-with-typescript', 'plugin:react/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'standard-with-typescript',
+    'plugin:react/recommended',
+    'eslint-config-prettier'
+  ],
   overrides: [
     {
       env: {
@@ -21,6 +28,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'react-hooks/exhaustive-deps': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',

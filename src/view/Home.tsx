@@ -5,11 +5,12 @@ import SearchBar from '../component/SearchBar'
 import { useGetCharacterCollection } from '../hook/useCharacter'
 
 const Home = () => {
-  const { collection, isLoading, isError } = useGetCharacterCollection()
+  const { collection, isLoading, error } = useGetCharacterCollection()
 
-  if (isError) {
-    return <div>Unfortunately, something went wrong!</div>
+  if (error?.status === 500) {
+    return <div>{error.message}</div>
   }
+
   return (
     <>
       <SearchBar />
@@ -18,7 +19,7 @@ const Home = () => {
       ) : (
         <>
           <Paging />
-          <CharacterGrid collection={collection} />
+          <CharacterGrid collection={collection} error={error} />
         </>
       )}
     </>

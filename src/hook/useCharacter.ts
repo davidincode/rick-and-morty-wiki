@@ -13,6 +13,7 @@ export const useGetCharacterCollection = () => {
   const {
     collection,
     targeted: name,
+    error,
     loading
   } = useAppSelector(selectCharacter)
   const { current: page } = useAppSelector(selectPagingInfo)
@@ -23,10 +24,9 @@ export const useGetCharacterCollection = () => {
 
   const isUninitialized = loading === 'idle'
   const isLoading = loading === 'pending'
-  const isError = loading === 'failed'
   const isSuccess = loading === 'succeeded'
 
-  return { collection, isUninitialized, isLoading, isError, isSuccess }
+  return { collection, isUninitialized, isLoading, error, isSuccess }
 }
 
 export const useGetCharacterDetail = (characterId: number) => {

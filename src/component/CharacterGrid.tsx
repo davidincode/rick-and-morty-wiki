@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import type { Character } from '../typing/API'
+import type { SerializedError } from '../typing/store'
 
 interface CharacterGridProps {
   collection: Character[]
+  error?: SerializedError
 }
 
-const CharacterGrid = ({ collection }: CharacterGridProps) => {
+const CharacterGrid = ({ collection, error }: CharacterGridProps) => {
   const navigate = useNavigate()
   return (
     <ul>
+      {error?.status === 404 && <p>Character not found</p>}
       {collection.map(character => (
         <li key={character.id}>
           <h1>{character.name}</h1>
