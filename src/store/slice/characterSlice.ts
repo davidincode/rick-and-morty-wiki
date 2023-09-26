@@ -8,19 +8,16 @@ import { isSerializedError } from '../../util/typing'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import type { Character } from '../../typing/API'
+import type { Character, Gender, Status, Species, Type } from '../../typing/API'
 import type { SerializedError } from '../../typing/store'
 import type { FetchCharacterCollectionArgs } from '../../service/characterService'
 import { AxiosError } from 'axios'
 
 export const getCharacterCollection = createAsyncThunk(
   'character/getCharacterCollection',
-  async ({ name, page }: FetchCharacterCollectionArgs, thunkAPI) => {
+  async (args: FetchCharacterCollectionArgs, thunkAPI) => {
     try {
-      const { collection, paging } = await fetchCharacterCollection({
-        name,
-        page
-      })
+      const { collection, paging } = await fetchCharacterCollection(args)
       thunkAPI.dispatch(setPagingInfo(paging))
       thunkAPI.dispatch(cleanError())
 
@@ -49,9 +46,18 @@ export const getCharacterDetail = createAsyncThunk(
   }
 )
 
+interface Filter {
+  name?: string
+  gender?: Gender
+  status?: Status
+  species?: Species
+  type?: Type
+  [key: string]: string | number | null | undefined
+}
+
 interface CharacterState {
   collection: Character[]
-  targeted: string
+  filterBy: Filter
   error?: SerializedError
   detail: Character | null
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
@@ -59,7 +65,7 @@ interface CharacterState {
 
 const initialState: CharacterState = {
   collection: [],
-  targeted: '',
+  filterBy: {},
   detail: null,
   loading: 'idle'
 }
@@ -68,11 +74,21 @@ export const characterSlice = createSlice({
   name: 'character',
   initialState,
   reducers: {
-    setTargetedCharacter: (state, action: PayloadAction<string>) => {
-      state.targeted = action.payload
-    },
     cleanError: state => {
       state.error = undefined
+    },
+    setFilterBy: (
+      state,
+      action: PayloadAction<{ by: string; value: string }>
+    ) => {
+      state.filterBy[action.payload.by] = action.payload.value
+    },
+    removeFilterBy: (state, action: PayloadAction<{ by: string }>) => {
+      const { [action.payload.by]: _, ...newFilter } = state.filterBy
+      state.filterBy = newFilter
+    },
+    clearFilter: state => {
+      state.filterBy = {}
     }
   },
   extraReducers: builder => {
@@ -113,7 +129,8 @@ export const characterSlice = createSlice({
   }
 })
 
-export const { setTargetedCharacter, cleanError } = characterSlice.actions
+export const { setFilterBy, removeFilterBy, cleanError } =
+  characterSlice.actions
 
 export const selectCharacter = (state: RootState) => state.character
 export default characterSlice.reducer

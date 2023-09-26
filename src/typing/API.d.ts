@@ -26,16 +26,10 @@ export interface Character {
   firstSeenIn?: string
 }
 
-export type Gender = 'Male' | 'Female' | 'unknown'
-
 export interface Location {
   name: string
   url: string
 }
-
-export type Species = 'Human' | 'Alien'
-
-export type Status = 'Alive' | 'unknown' | 'Dead'
 
 export interface Episode {
   id: number
@@ -46,3 +40,24 @@ export interface Episode {
   url: string
   created: Date
 }
+
+export type Gender = 'Female' | 'Male' | 'Genderless' | 'Unknown'
+export type Status = 'Alive' | 'Dead' | 'Unknown'
+export type Species =
+  | 'Human'
+  | 'Alien'
+  | 'Humanoid'
+  | 'unknown'
+  | 'Poopybutthole'
+  | 'Mythological Creature'
+  | 'Robot'
+  | 'Animal'
+  | 'Disease'
+  | 'Cronenberg'
+export type Type =
+  | ''
+  | 'Genetic experiment'
+  | 'Superhuman (Ghost trains summoner)'
+  | 'Parasite'
+  | 'Human with antennae'
+  | 'Human with ants in his eyes'

@@ -1,5 +1,13 @@
 import axios from 'axios'
-import type { Character, Episode, RickAndMortyAPIResponse } from '../typing/API'
+import type {
+  Character,
+  Episode,
+  RickAndMortyAPIResponse,
+  Species,
+  Gender,
+  Status,
+  Type
+} from '../typing/API'
 
 const API_BASE_URL = 'https://rickandmortyapi.com/api'
 
@@ -14,30 +22,31 @@ const formatCollectionWithFirstSeenIn = async (
   )
 }
 
-export const buildEndpoint = ({ name, page }: FetchCharacterCollectionArgs) => {
+export const buildEndpoint = (args: FetchCharacterCollectionArgs) => {
   const url = new URL(`${API_BASE_URL}/character`)
-
-  if (name) {
-    url.searchParams.set('name', name)
+  for (const key in args) {
+    if (args[key]) {
+      url.searchParams.append(key, String(args[key]))
+    }
   }
-
-  if (page) {
-    url.searchParams.set('page', String(page))
-  }
-
+  console.log(url.toString())
   return url.toString()
 }
 
 export interface FetchCharacterCollectionArgs {
   name?: string | null
   page?: number | null
+  species?: Species | null
+  type?: Type | null
+  gender?: Gender | null
+  status?: Status | null
+  [key: string]: string | number | null | undefined
 }
 
-export const fetchCharacterCollection = async ({
-  name,
-  page
-}: FetchCharacterCollectionArgs) => {
-  const endpoint = buildEndpoint({ name, page })
+export const fetchCharacterCollection = async (
+  args: FetchCharacterCollectionArgs
+) => {
+  const endpoint = buildEndpoint(args)
   const { data }: { data: RickAndMortyAPIResponse } = await axios.get(endpoint)
 
   const collection = await formatCollectionWithFirstSeenIn(data.results)
