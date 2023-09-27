@@ -81,7 +81,9 @@ export const characterSlice = createSlice({
       state,
       action: PayloadAction<{ by: string; value: string }>
     ) => {
-      state.filterBy[action.payload.by] = action.payload.value
+      if (action.payload.by) {
+        state.filterBy[action.payload.by] = action.payload.value
+      }
     },
     removeFilterBy: (state, action: PayloadAction<{ by: string }>) => {
       const { [action.payload.by]: _, ...newFilter } = state.filterBy
