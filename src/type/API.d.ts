@@ -55,7 +55,6 @@ export type Species =
   | 'Disease'
   | 'Cronenberg'
 export type Type =
-  | ''
   | 'Genetic experiment'
   | 'Superhuman (Ghost trains summoner)'
   | 'Parasite'

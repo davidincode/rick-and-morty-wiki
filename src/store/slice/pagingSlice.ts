@@ -3,7 +3,7 @@ import { getPageNumer } from '../../util/paging'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import type { Info } from '../../typing/API'
+import type { Info } from '../../type/API'
 
 export interface PagingState {
   count: number

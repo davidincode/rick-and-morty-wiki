@@ -11,7 +11,7 @@ const FilterOption = ({ option, values }: FilterOptionProps) => {
 
   return (
     <div>
-      <p>{option}</p>
+      <p style={{ textTransform: 'capitalize' }}>{option}</p>
       <select
         onChange={e =>
           filterCharacterCollection({

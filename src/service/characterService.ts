@@ -1,13 +1,6 @@
 import axios from 'axios'
-import type {
-  Character,
-  Episode,
-  RickAndMortyAPIResponse,
-  Species,
-  Gender,
-  Status,
-  Type
-} from '../typing/API'
+import type { Character, Episode, RickAndMortyAPIResponse } from '../type/API'
+import type { FetchCharacterCollectionArgs } from './service'
 
 const API_BASE_URL = 'https://rickandmortyapi.com/api'
 
@@ -29,18 +22,7 @@ export const buildEndpoint = (args: FetchCharacterCollectionArgs) => {
       url.searchParams.append(key, String(args[key]))
     }
   }
-  console.log(url.toString())
   return url.toString()
-}
-
-export interface FetchCharacterCollectionArgs {
-  name?: string | null
-  page?: number | null
-  species?: Species | null
-  type?: Type | null
-  gender?: Gender | null
-  status?: Status | null
-  [key: string]: string | number | null | undefined
 }
 
 export const fetchCharacterCollection = async (

@@ -1,4 +1,4 @@
 export interface SerializedError {
   message: string
-  status: number
+  status: number | null
 }

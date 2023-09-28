@@ -1,4 +1,4 @@
-import type { Species, Type, Gender, Status } from '../typing/API'
+import type { Species, Type, Gender, Status } from '../type/API'
 
 export const characterGender: Gender[] = [
   'Female',

@@ -1,4 +1,4 @@
-import type { SerializedError } from '../typing/store'
+import type { SerializedError } from '../type/store'
 
 export const isSerializedError = (
   payload: unknown

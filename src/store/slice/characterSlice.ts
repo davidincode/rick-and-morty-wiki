@@ -4,14 +4,13 @@ import {
   fetchCharacterDetail
 } from '../../service/characterService'
 import { setPagingInfo } from './pagingSlice'
-import { isSerializedError } from '../../util/typing'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import type { Character, Gender, Status, Species, Type } from '../../typing/API'
-import type { SerializedError } from '../../typing/store'
-import type { FetchCharacterCollectionArgs } from '../../service/characterService'
-import { AxiosError } from 'axios'
+import type { Character, Gender, Status, Species, Type } from '../../type/API'
+import type { FetchCharacterCollectionArgs } from '../../service/service'
+import { cleanError, setError } from './errorSlice'
+import { serializeError } from '../../util/error'
 
 export const getCharacterCollection = createAsyncThunk(
   'character/getCharacterCollection',
@@ -23,17 +22,8 @@ export const getCharacterCollection = createAsyncThunk(
 
       return collection
     } catch (error) {
-      if (error instanceof AxiosError) {
-        return thunkAPI.rejectWithValue({
-          message: error.response?.data.error,
-          status: error.response?.status ?? 400
-        } satisfies SerializedError)
-      }
-
-      return thunkAPI.rejectWithValue({
-        message: 'Unfortunately, something went wrong!',
-        status: 500
-      } satisfies SerializedError)
+      const serializedError = serializeError(error)
+      thunkAPI.dispatch(setError({ error: serializedError }))
     }
   }
 )
@@ -46,7 +36,7 @@ export const getCharacterDetail = createAsyncThunk(
   }
 )
 
-interface Filter {
+export interface Filter {
   name?: string
   gender?: Gender
   status?: Status
@@ -58,7 +48,6 @@ interface Filter {
 interface CharacterState {
   collection: Character[]
   filterBy: Filter
-  error?: SerializedError
   detail: Character | null
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 }
@@ -74,9 +63,6 @@ export const characterSlice = createSlice({
   name: 'character',
   initialState,
   reducers: {
-    cleanError: state => {
-      state.error = undefined
-    },
     setFilterBy: (
       state,
       action: PayloadAction<{ by: string; value: string }>
@@ -107,12 +93,7 @@ export const characterSlice = createSlice({
       .addCase(getCharacterCollection.pending, (state, _action) => {
         state.loading = 'pending'
       })
-      .addCase(getCharacterCollection.rejected, (state, action) => {
-        if (action.meta.rejectedWithValue) {
-          if (isSerializedError(action.payload)) {
-            state.error = action.payload
-          }
-        }
+      .addCase(getCharacterCollection.rejected, (state, _action) => {
         state.loading = 'failed'
       })
       .addCase(
@@ -131,8 +112,7 @@ export const characterSlice = createSlice({
   }
 })
 
-export const { setFilterBy, removeFilterBy, cleanError } =
-  characterSlice.actions
+export const { setFilterBy, removeFilterBy } = characterSlice.actions
 
 export const selectCharacter = (state: RootState) => state.character
 export default characterSlice.reducer
