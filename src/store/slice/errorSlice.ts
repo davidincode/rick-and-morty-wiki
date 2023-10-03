@@ -1,6 +1,10 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import type { SerializedError } from '../../type/store'
+
+export interface SerializedError {
+  message: string
+  status: number | null
+}
 
 interface ErrorState {
   message: string

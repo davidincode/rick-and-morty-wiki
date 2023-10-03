@@ -4,19 +4,19 @@ import {
   selectCharacter,
   setFilterBy
 } from '../store/slice/characterSlice'
-import type { TFilterOption, TFilterValue } from '../util/filter'
+import type { TFilterOption, TFilterSingleValue } from '../util/filterUtility'
 
-interface TFilter {
+interface TSingleFilter {
   by: TFilterOption
-  value: TFilterValue
+  value: TFilterSingleValue
 }
 
 export const useFilter = () => {
   const dispatch = useAppDispatch()
 
-  const { filterBy } = useAppSelector(selectCharacter)
+  const { filterBy: activeFilterMap } = useAppSelector(selectCharacter)
 
-  const filterCharacterCollection = ({ by, value }: TFilter) => {
+  const updateFilter = ({ by, value }: TSingleFilter) => {
     if (value !== 'None') {
       dispatch(setFilterBy({ by, value }))
     }
@@ -26,5 +26,5 @@ export const useFilter = () => {
     dispatch(removeFilterBy({ by }))
   }
 
-  return { filterBy, filterCharacterCollection, unsetFilter }
+  return { activeFilterMap, updateFilter, unsetFilter }
 }

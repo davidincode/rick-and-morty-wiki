@@ -4,19 +4,24 @@ import {
   fetchCharacterDetail
 } from '../../service/characterService'
 import { setPagingInfo } from './pagingSlice'
+import { cleanError, setError } from './errorSlice'
+import { serializeError } from '../../util/errorUtility'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import type { Character, Gender, Status, Species, Type } from '../../type/API'
-import type { FetchCharacterCollectionArgs } from '../../service/service'
-import { cleanError, setError } from './errorSlice'
-import { serializeError } from '../../util/error'
+import type {
+  TFilterOption,
+  TFilterSingleValue
+} from '../../util/filterUtility'
 
 export const getCharacterCollection = createAsyncThunk(
   'character/getCharacterCollection',
-  async (args: FetchCharacterCollectionArgs, thunkAPI) => {
+  async (parameterMap: TFilterMap, thunkAPI) => {
     try {
-      const { collection, paging } = await fetchCharacterCollection(args)
+      const { collection, paging } = await fetchCharacterCollection(
+        parameterMap
+      )
       thunkAPI.dispatch(setPagingInfo(paging))
       thunkAPI.dispatch(cleanError())
 
@@ -30,14 +35,20 @@ export const getCharacterCollection = createAsyncThunk(
 
 export const getCharacterDetail = createAsyncThunk(
   'character/getCharacterDetail',
-  async (id: number) => {
-    const detailOfCharacter = await fetchCharacterDetail(id)
-    return detailOfCharacter
+  async (id: number, thunkAPI) => {
+    try {
+      const detailOfCharacter = await fetchCharacterDetail(id)
+      return detailOfCharacter
+    } catch (error) {
+      const serializedError = serializeError(error)
+      thunkAPI.dispatch(setError({ error: serializedError }))
+    }
   }
 )
 
-export interface Filter {
+export interface TFilterMap {
   name?: string
+  page?: number
   gender?: Gender
   status?: Status
   species?: Species
@@ -47,7 +58,7 @@ export interface Filter {
 
 interface CharacterState {
   collection: Character[]
-  filterBy: Filter
+  filterBy: TFilterMap
   detail: Character | null
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 }
@@ -65,13 +76,13 @@ export const characterSlice = createSlice({
   reducers: {
     setFilterBy: (
       state,
-      action: PayloadAction<{ by: string; value: string }>
+      action: PayloadAction<{ by: TFilterOption; value: TFilterSingleValue }>
     ) => {
       if (action.payload.by) {
         state.filterBy[action.payload.by] = action.payload.value
       }
     },
-    removeFilterBy: (state, action: PayloadAction<{ by: string }>) => {
+    removeFilterBy: (state, action: PayloadAction<{ by: TFilterOption }>) => {
       const { [action.payload.by]: _, ...newFilter } = state.filterBy
       state.filterBy = newFilter
     },
@@ -98,8 +109,10 @@ export const characterSlice = createSlice({
       })
       .addCase(
         getCharacterDetail.fulfilled,
-        (state, action: PayloadAction<Character>) => {
-          state.detail = action.payload
+        (state, action: PayloadAction<Character | undefined>) => {
+          if (action.payload) {
+            state.detail = action.payload
+          }
           state.loading = 'succeeded'
         }
       )

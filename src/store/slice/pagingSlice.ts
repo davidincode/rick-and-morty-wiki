@@ -1,7 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { getPageNumer } from '../../util/paging'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { getPageNumberFromURL } from '../../util/pagingUtility'
 
-import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import type { Info } from '../../type/API'
 
@@ -38,16 +37,18 @@ export const pagingSlice = createSlice({
   initialState,
   reducers: {
     setPagingInfo: (state, action: PayloadAction<Info>) => {
-      const nextPage =
-        action.payload.next !== null ? getPageNumer(action.payload.next) : null
-      const prevPage =
-        action.payload.prev !== null ? getPageNumer(action.payload.prev) : null
+      const { next, prev, count, pages } = action.payload
+      const nextPage = next ? getPageNumberFromURL(next) : null
+      const prevPage = prev ? getPageNumberFromURL(prev) : null
 
-      state.count = action.payload.count
-      state.pages = action.payload.pages
-      state.current = nextPage ? nextPage - 1 : prevPage ? prevPage + 1 : 1
-      state.next = { page: nextPage, url: action.payload.next }
-      state.prev = { page: prevPage, url: action.payload.prev }
+      state = {
+        ...state,
+        count,
+        pages,
+        current: nextPage ? nextPage - 1 : prevPage ? prevPage + 1 : 1,
+        next: { page: nextPage, url: next },
+        prev: { page: prevPage, url: prev }
+      }
     },
     setNextPage: state => {
       state.current++

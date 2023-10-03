@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { Character, Episode, RickAndMortyAPIResponse } from '../type/API'
-import type { FetchCharacterCollectionArgs } from './service'
+import type { TFilterMap } from '../store/slice/characterSlice'
 
 const API_BASE_URL = 'https://rickandmortyapi.com/api'
 
@@ -15,22 +15,20 @@ const formatCollectionWithFirstSeenIn = async (
   )
 }
 
-export const buildEndpoint = (args: FetchCharacterCollectionArgs) => {
+export const buildEndpoint = (parameterMap: TFilterMap) => {
   const url = new URL(`${API_BASE_URL}/character`)
-  for (const key in args) {
-    if (args[key]) {
-      url.searchParams.append(key, String(args[key]))
+  for (const param in parameterMap) {
+    if (parameterMap[param] !== null) {
+      url.searchParams.append(param, String(parameterMap[param]))
     }
   }
   return url.toString()
 }
 
-export const fetchCharacterCollection = async (
-  args: FetchCharacterCollectionArgs
-) => {
-  const endpoint = buildEndpoint(args)
-  const { data }: { data: RickAndMortyAPIResponse } = await axios.get(endpoint)
+export const fetchCharacterCollection = async (parameterMap: TFilterMap) => {
+  const ENDPOINT = buildEndpoint(parameterMap)
 
+  const { data }: { data: RickAndMortyAPIResponse } = await axios.get(ENDPOINT)
   const collection = await formatCollectionWithFirstSeenIn(data.results)
 
   return { collection, paging: data.info }
@@ -40,8 +38,7 @@ export const fetchCharacterDetail = async (characterId: number) => {
   const { data }: { data: Character } = await axios.get(
     `${API_BASE_URL}/character/${characterId}`
   )
+  const singleItemCollection = await formatCollectionWithFirstSeenIn([data])
 
-  const collection = await formatCollectionWithFirstSeenIn([data])
-
-  return collection[0]
+  return singleItemCollection[0]
 }

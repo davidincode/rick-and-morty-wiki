@@ -2,15 +2,15 @@ import CharacterGrid from '../component/CharacterGrid'
 import Filter from '../component/Filter'
 import Paging from '../component/Paging'
 import SearchBar from '../component/SearchBar'
-import ActiveFilters from '../component/ActiveFilters'
-import Error from '../component/Error'
+import ActiveFilter from '../component/ActiveFilter'
 
 import { useGetCharacterCollection } from '../hook/useCharacter'
-import { useAppSelector } from '../store/hook/useStore'
-import { selectError } from '../store/slice/errorSlice'
 const Home = () => {
-  const { collection, filterBy, isLoading } = useGetCharacterCollection()
-  const error = useAppSelector(selectError)
+  const {
+    collection,
+    filterBy: activeFilterMap,
+    isLoading
+  } = useGetCharacterCollection()
 
   return (
     <>
@@ -19,9 +19,8 @@ const Home = () => {
         <p>Loading...</p>
       ) : (
         <>
-          {error.status !== null && <Error />}
           <Paging />
-          <ActiveFilters activeFilters={filterBy} />
+          <ActiveFilter filterMap={activeFilterMap} />
           <CharacterGrid collection={collection} />
           <Filter />
         </>

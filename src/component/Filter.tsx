@@ -1,15 +1,15 @@
-import { characterFilterMap } from '../util/filter'
+import { characterFilterMap } from '../util/filterUtility'
 import FilterOption from './FilterOption'
 
 const Filter = () => {
   return (
     <div>
       {Array.from(characterFilterMap).map(
-        ([filterOption, possibleValues], index) => (
+        ([filterOption, filterValueList], index) => (
           <FilterOption
             key={index}
             option={filterOption}
-            values={possibleValues}
+            values={filterValueList}
           />
         )
       )}

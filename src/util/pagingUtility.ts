@@ -1,4 +1,4 @@
-export const getPageNumer = (url: string): number | null => {
+export const getPageNumberFromURL = (url: string): number | null => {
   const urlObj = new URL(url)
   const pageNumber = urlObj.searchParams.get('page')
 

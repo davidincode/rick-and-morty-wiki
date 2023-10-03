@@ -22,7 +22,7 @@ const Error = () => {
     )
   }
 
-  if (errorStatus === 500) {
+  if (errorStatus !== 404) {
     return (
       <dialog ref={dialogRef} open={errorStatus !== null}>
         <p>{errorMessage}</p>

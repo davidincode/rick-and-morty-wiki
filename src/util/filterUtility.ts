@@ -1,3 +1,4 @@
+import type { TFilterMap } from '../store/slice/characterSlice'
 import type { Species, Type, Gender, Status } from '../type/API'
 
 export const characterGender: Gender[] = [
@@ -30,11 +31,11 @@ export const characterType: Type[] = [
   'Human with ants in his eyes'
 ]
 
-export type TFilterOption = 'species' | 'type' | 'gender' | 'status'
-export type TFilterValues = Species[] | Type[] | Gender[] | Status[]
-export type TFilterValue = Species | Type | Gender | Status | 'None'
+export type TFilterOption = keyof TFilterMap
+export type TFilterValueList = Species[] | Type[] | Gender[] | Status[]
+export type TFilterSingleValue = Species | Type | Gender | Status | 'None'
 
-export const characterFilterMap = new Map<TFilterOption, TFilterValues>([
+export const characterFilterMap = new Map<TFilterOption, TFilterValueList>([
   ['species', characterSpecies],
   ['type', characterType],
   ['gender', characterGender],

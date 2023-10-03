@@ -1,28 +1,34 @@
 import { useFilter } from '../hook/useFilter'
-import type { TFilterOption, TFilterValues, TFilterValue } from '../util/filter'
+import type {
+  TFilterOption,
+  TFilterValueList,
+  TFilterSingleValue
+} from '../util/filterUtility'
 
-interface FilterOptionProps {
+interface FilterOptionConfig {
   option: TFilterOption
-  values: TFilterValues
+  valueList: TFilterValueList
 }
 
-const FilterOption = ({ option, values }: FilterOptionProps) => {
-  const { filterBy, filterCharacterCollection } = useFilter()
+const FilterOption = ({ option, valueList }: FilterOptionConfig) => {
+  const { activeFilterMap, updateFilter } = useFilter()
+
+  const handleSelectFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateFilter({
+      by: option,
+      value: e.target.value as TFilterSingleValue
+    })
+  }
 
   return (
     <div>
       <p style={{ textTransform: 'capitalize' }}>{option}</p>
       <select
-        onChange={e =>
-          filterCharacterCollection({
-            by: option,
-            value: e.target.value as TFilterValue
-          })
-        }
-        value={String(filterBy[option])}
+        onChange={handleSelectFilter}
+        value={String(activeFilterMap[option])}
       >
         <option value='None'></option>
-        {values.map((value, index) => (
+        {valueList.map((value, index) => (
           <option
             key={index}
             value={value}
