@@ -41,14 +41,11 @@ export const pagingSlice = createSlice({
       const nextPage = next ? getPageNumberFromURL(next) : null
       const prevPage = prev ? getPageNumberFromURL(prev) : null
 
-      state = {
-        ...state,
-        count,
-        pages,
-        current: nextPage ? nextPage - 1 : prevPage ? prevPage + 1 : 1,
-        next: { page: nextPage, url: next },
-        prev: { page: prevPage, url: prev }
-      }
+      state.count = count
+      state.pages = pages
+      state.current = nextPage ? nextPage - 1 : prevPage ? prevPage + 1 : 1
+      state.next = { page: nextPage, url: next }
+      state.prev = { page: prevPage, url: prev }
     },
     setNextPage: state => {
       state.current++

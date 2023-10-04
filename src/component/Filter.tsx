@@ -9,7 +9,7 @@ const Filter = () => {
           <FilterOption
             key={index}
             option={filterOption}
-            values={filterValueList}
+            valueList={filterValueList}
           />
         )
       )}
