@@ -1,4 +1,4 @@
-import { characterFilterMap } from '../util/filterUtility'
+import { characterFilterMap } from '@util/filterUtility'
 import FilterOption from './FilterOption'
 
 const Filter = () => {

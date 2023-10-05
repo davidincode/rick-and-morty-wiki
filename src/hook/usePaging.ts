@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from '../store/hook/useStore'
+import { useAppDispatch, useAppSelector } from '@store/hook/useStore'
 import {
   selectPagingInfo,
   setNextPage,
   setPrevPage
-} from '../store/slice/pagingSlice'
+} from '@store/slice/pagingSlice'
 
 export const usePaging = () => {
   const dispatch = useAppDispatch()

@@ -1,19 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+// Service
 import {
   fetchCharacterCollection,
   fetchCharacterDetail
-} from '../../service/characterService'
+} from '@service/characterService'
+
+// Actions
 import { setPagingInfo } from './pagingSlice'
 import { cleanError, setError } from './errorSlice'
-import { serializeError } from '../../util/errorUtility'
 
+// Utily
+import { serializeError } from '@util/errorUtility'
+
+// Types
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import type { Character, Gender, Status, Species, Type } from '../../type/API'
-import type {
-  TFilterOption,
-  TFilterSingleValue
-} from '../../util/filterUtility'
+import type { Character, Gender, Status, Species, Type } from '@type/API'
+import type { TFilterOption, TFilterSingleValue } from '@util/filterUtility'
 
 export const getCharacterCollection = createAsyncThunk(
   'character/getCharacterCollection',

@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from '../store/hook/useStore'
-import { cleanError, selectError } from '../store/slice/errorSlice'
+import { useAppDispatch, useAppSelector } from '@store/hook/useStore'
+import { cleanError, selectError } from '@store/slice/errorSlice'
 
 export const useError = () => {
   const dispatch = useAppDispatch()

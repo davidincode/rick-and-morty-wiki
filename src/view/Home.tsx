@@ -1,8 +1,8 @@
-import CharacterGrid from '../component/CharacterGrid'
-import Filter from '../component/Filter'
-import Paging from '../component/Paging'
-import SearchBar from '../component/SearchBar'
-import ActiveFilter from '../component/ActiveFilter'
+import CharacterGrid from '@component/CharacterGrid'
+import Filter from '@component/Filter'
+import Paging from '@component/Paging'
+import SearchBar from '@component/SearchBar'
+import ActiveFilter from '@component/ActiveFilter'
 
 import { useGetCharacterCollection } from '../hook/useCharacter'
 const Home = () => {

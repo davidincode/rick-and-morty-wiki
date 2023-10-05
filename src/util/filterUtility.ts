@@ -1,5 +1,5 @@
-import type { TFilterMap } from '../store/slice/characterSlice'
-import type { Species, Type, Gender, Status } from '../type/API'
+import type { TFilterMap } from '@store/slice/characterSlice'
+import type { Species, Type, Gender, Status } from '@type/API'
 
 export const characterGender: Gender[] = [
   'Female',

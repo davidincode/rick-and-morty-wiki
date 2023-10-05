@@ -1,6 +1,8 @@
 import axios from 'axios'
-import type { Character, Episode, RickAndMortyAPIResponse } from '../type/API'
-import type { TFilterMap } from '../store/slice/characterSlice'
+
+// Types
+import type { Character, Episode, RickAndMortyAPIResponse } from '@type/API'
+import type { TFilterMap } from '@store/slice/characterSlice'
 
 const API_BASE_URL = 'https://rickandmortyapi.com/api'
 

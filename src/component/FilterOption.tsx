@@ -1,9 +1,11 @@
-import { useFilter } from '../hook/useFilter'
+import { useFilter } from '@hook/useFilter'
+
+// Types
 import type {
   TFilterOption,
   TFilterValueList,
   TFilterSingleValue
-} from '../util/filterUtility'
+} from '@util/filterUtility'
 
 interface FilterOptionConfig {
   option: TFilterOption

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { useError } from '../hook/useError'
+import { useError } from '@hook/useError'
 
 const Error = () => {
   const { errorStatus, errorMessage, clearError } = useError()

@@ -1,6 +1,8 @@
-import { useFilter } from '../hook/useFilter'
-import type { TFilterMap } from '../store/slice/characterSlice'
-import type { TFilterOption } from '../util/filterUtility'
+import { useFilter } from '@hook/useFilter'
+
+// Types
+import type { TFilterMap } from '@store/slice/characterSlice'
+import type { TFilterOption } from '@util/filterUtility'
 
 interface ActiveFilterConfig {
   filterMap: TFilterMap

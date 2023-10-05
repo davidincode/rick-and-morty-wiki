@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useGetCharacterDetail } from '../hook/useCharacter'
+import { useGetCharacterDetail } from '@hook/useCharacter'
 
 const CharacterDetail = () => {
   const { characterDetail, isLoading, isError } = useGetCharacterDetail(

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSearch } from '../hook/useSearch'
+import { useSearch } from '@hook/useSearch'
 
 const SearchBar = () => {
   const [characterName, setCharacterName] = useState('')

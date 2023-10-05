@@ -4,7 +4,7 @@ import {
   selectCharacter,
   setFilterBy
 } from '../store/slice/characterSlice'
-import type { TFilterOption, TFilterSingleValue } from '../util/filterUtility'
+import type { TFilterOption, TFilterSingleValue } from '@util/filterUtility'
 
 interface TSingleFilter {
   by: TFilterOption

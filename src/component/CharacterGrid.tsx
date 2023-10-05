@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import type { Character } from '../type/API'
+import type { Character } from '@type/API'
 
 interface CharacterGridConfig {
   collection: Character[]

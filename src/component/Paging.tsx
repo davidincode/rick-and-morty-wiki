@@ -1,4 +1,4 @@
-import { usePaging } from '../hook/usePaging'
+import { usePaging } from '@hook/usePaging'
 const Paging = () => {
   const { pagingInfo, useSetNextPage, useSetPrevPage } = usePaging()
   const { count, prev, current, next, pages } = pagingInfo

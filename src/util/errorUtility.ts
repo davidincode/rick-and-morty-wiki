@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import type { SerializedError } from '../store/slice/errorSlice'
+import type { SerializedError } from '@store/slice/errorSlice'
 
 export const serializeError = (error: unknown): SerializedError => {
   const isAxiosError = error instanceof AxiosError

@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../store/hook/useStore'
+import { useAppDispatch, useAppSelector } from '@store/hook/useStore'
+
 import {
   getCharacterCollection,
   getCharacterDetail,
   selectCharacter
-} from '../store/slice/characterSlice'
+} from '@store/slice/characterSlice'
 
-import { selectPagingInfo } from '../store/slice/pagingSlice'
+import { selectPagingInfo } from '@store/slice/pagingSlice'
 
 export const useGetCharacterCollection = () => {
   const dispatch = useAppDispatch()
