@@ -13,21 +13,16 @@ const ActiveFilter = ({ filterMap }: ActiveFilterConfig) => {
   return (
     <>
       {Object.entries(filterMap).length > 0 &&
-        Object.entries(filterMap).map(
-          ([filterOption, filterValue]) =>
-            filterOption !== 'name' && (
-              <p style={{ textTransform: 'capitalize' }} key={filterOption}>
-                {filterOption}: {filterValue}
-                <button
-                  onClick={() =>
-                    unsetFilter({ by: filterOption as TFilterOption })
-                  }
-                >
-                  Delete
-                </button>
-              </p>
-            )
-        )}
+        Object.entries(filterMap).map(([filterOption, filterValue]) => (
+          <p style={{ textTransform: 'capitalize' }} key={filterOption}>
+            {filterOption}: {filterValue}
+            <button
+              onClick={() => unsetFilter({ by: filterOption as TFilterOption })}
+            >
+              Delete
+            </button>
+          </p>
+        ))}
     </>
   )
 }

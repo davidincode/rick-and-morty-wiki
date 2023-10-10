@@ -9,5 +9,17 @@ export const useError = () => {
     dispatch(cleanError())
   }
 
-  return { errorStatus: error.status, errorMessage: error.message, clearError }
+  const isBadRequestError = error.status === 400
+  const isServerError = error.status === 500
+  const isNotFoundError = error.status === 404
+
+  return {
+    isError: error.message !== '' && error.status !== null,
+    isBadRequestError,
+    isServerError,
+    isNotFoundError,
+    errorStatus: error.status,
+    errorMessage: error.message,
+    clearError
+  }
 }

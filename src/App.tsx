@@ -1,14 +1,21 @@
+import { Routes, Route } from 'react-router-dom'
+
+// View
 import Home from './view/Home'
 import CharacterDetail from './view/CharacterDetail'
 
-import { Routes, Route } from 'react-router-dom'
+// Component
+import Error from '@component/Error'
 
 const App = () => {
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/character/:id' element={<CharacterDetail />} />
-    </Routes>
+    <>
+      <Error />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/character/:id' element={<CharacterDetail />} />
+      </Routes>
+    </>
   )
 }
 

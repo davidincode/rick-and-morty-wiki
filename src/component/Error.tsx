@@ -1,30 +1,40 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useError } from '@hook/useError'
 
 const Error = () => {
-  const { errorStatus, errorMessage, clearError } = useError()
+  const {
+    isBadRequestError,
+    isServerError,
+    isNotFoundError,
+    errorStatus,
+    errorMessage,
+    clearError
+  } = useError()
   const dialogRef: React.MutableRefObject<HTMLDialogElement | null> =
     useRef(null)
+
+  useEffect(() => {
+    if (isServerError || isBadRequestError) {
+      dialogRef.current?.showModal()
+    }
+  }, [isServerError, isBadRequestError])
 
   const handleCloseModal = () => {
     if (dialogRef.current !== null) {
       clearError()
       dialogRef.current.close()
+      window.location.reload()
     }
   }
 
-  if (errorStatus === 404) {
-    return (
-      <div>
-        <p>Character not found</p>
-        <button onClick={clearError}>Close</button>
-      </div>
-    )
+  if (isNotFoundError) {
+    return <p>{errorMessage}</p>
   }
 
-  if (errorStatus !== 404) {
+  if (isServerError || isBadRequestError) {
     return (
-      <dialog ref={dialogRef} open={errorStatus !== null}>
+      <dialog ref={dialogRef}>
+        <h4>Error {errorStatus}</h4>
         <p>{errorMessage}</p>
         <button onClick={handleCloseModal}>Close</button>
       </dialog>

@@ -1,3 +1,4 @@
+import { useError } from '@hook/useError'
 import { useFilter } from '@hook/useFilter'
 
 // Types
@@ -14,6 +15,7 @@ interface FilterOptionConfig {
 
 const FilterOption = ({ option, valueList }: FilterOptionConfig) => {
   const { activeFilterMap, updateFilter } = useFilter()
+  const { isNotFoundError } = useError()
 
   const handleSelectFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateFilter({
@@ -26,6 +28,7 @@ const FilterOption = ({ option, valueList }: FilterOptionConfig) => {
     <div>
       <p style={{ textTransform: 'capitalize' }}>{option}</p>
       <select
+        disabled={isNotFoundError}
         onChange={handleSelectFilter}
         value={String(activeFilterMap[option])}
       >
